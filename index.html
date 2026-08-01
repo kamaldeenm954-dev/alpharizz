@@ -182,7 +182,7 @@
   <span class="bar-was" id="bar-old-price">$16</span>
   <span class="bar-price" id="bar-new-price">$10</span>
   <span>— Ends in: <strong id="bar-timer">30:00</strong></span>
-  <a href="https://checkout.mainstack.com/alpharizzology/67-flirty-text-to-make-her-chase-you-3" class="bar-btn">Get Instant Access →</a>
+  <a href="https://selar.com/0400144841" class="bar-btn">Get Instant Access →</a>
 </div>
 
 <!-- TIMER -->
@@ -224,7 +224,7 @@
     <span class="price-save">You save <span id="hero-save">$6</span> right now</span>
     <span class="price-note">Returns to <span id="hero-old-price2">$16</span> when timer expires.</span>
   </div>
-  <a href="https://checkout.mainstack.com/alpharizzology/67-flirty-text-to-make-her-chase-you-3" class="cta-btn">Get My 67 Texts Now →</a>
+  <a href="https://selar.com/0400144841" class="cta-btn">Get My 67 Texts Now →</a>
   <p class="sub-note">✅ Instant access &nbsp;·&nbsp; 📱 Any device &nbsp;·&nbsp; 🛡️ 30-day money-back guarantee</p>
 </section>
 
@@ -318,7 +318,7 @@
     <tr class="total-row"><td><strong>You Pay Today</strong></td><td class="val-gold"><span id="you-pay-table"></span></td></tr>
   </table>
   <div style="text-align:center;margin-top:32px;">
-    <a href="https://checkout.mainstack.com/alpharizzology/67-flirty-text-to-make-her-chase-you-3" class="cta-btn">Get Everything for <span id="cta-price-mid"></span> →</a>
+    <a href="https://selar.com/0400144841" class="cta-btn">Get Everything for <span id="cta-price-mid"></span> →</a>
   </div>
 </section>
 
@@ -388,7 +388,7 @@
   <div class="section-label" style="display:flex;justify-content:center;">Make Your Move</div>
   <h2>Stop Overthinking.<br><em>Start Sending.</em></h2>
   <p>For <span id="final-new-price">$10</span> you get 67 proven copy-paste texts plus 2 free bonuses — backed by a 30-day guarantee. The timer above is real.</p>
-  <a href="https://checkout.mainstack.com/alpharizzology/67-flirty-text-to-make-her-chase-you-3" class="cta-btn">Get The 67 Texts — <span id="cta-price-final"></span> →</a>
+  <a href="https://selar.com/0400144841" class="cta-btn">Get The 67 Texts — <span id="cta-price-final"></span> →</a>
   <p style="color:var(--muted);font-size:13px;margin-top:10px;margin-bottom:36px;">One-time payment · Instant access · 30-day money-back guarantee</p>
   <div class="guarantee-box">
     <div class="g-icon">🛡️</div>
@@ -448,11 +448,10 @@
 // ═══════════════════════════════════════════════════════
 // PRICING ENGINE
 // Regions:
-//   Africa  → base ₦4,000 NGN → convert at real FX rates
-//   Asia    → base ₹400 INR   → convert at real FX rates
-//   Europe  → €10
-//   Tier-1  → $10 USD (US, CA, AU, NZ, etc.)
-//   Old price = new price × 1.6, rounded same
+//   Africa → NGN base: ₦5,000 new / ₦8,500 old
+//            Other African currencies converted from NGN ratio
+//   Everyone else (Europe, Asia, Tier-1, unknown) → $10 USD standard
+//            Old price = $16 (60% more, shown in local currency)
 //
 // Round rules:
 //   < 100   → nearest 1
@@ -466,86 +465,97 @@ function smartRound(n) {
   return Math.round(n / 1000) * 1000;
 }
 
-// Exchange rates vs USD (approximate, update periodically)
+// FX rates vs USD
 const FX = {
   USD:1, EUR:0.92, GBP:0.79, CAD:1.36, AUD:1.52, NZD:1.64,
+  JPY:150, SGD:1.34, INR:83, PHP:56, PKR:278, BDT:110, MYR:4.7,
   NGN:1600, GHS:15.5, KES:130, ZAR:18.5, ZMW:26, MWK:1730,
-  TZS:2650, XAF:600, // Cameroon CFA
-  INR:83, PHP:56, PKR:278,
+  TZS:2650, XAF:600, UGX:3700, ETB:57,
 };
 
-// Country → { currency, region }
-const COUNTRY_MAP = {
-  // Africa
-  NG:{ c:'NGN', r:'africa', flag:'🇳🇬' },
-  GH:{ c:'GHS', r:'africa', flag:'🇬🇭' },
-  KE:{ c:'KES', r:'africa', flag:'🇰🇪' },
-  ZA:{ c:'ZAR', r:'africa', flag:'🇿🇦' },
-  ZM:{ c:'ZMW', r:'africa', flag:'🇿🇲' },
-  ZW:{ c:'ZAR', r:'africa', flag:'🇿🇼' }, // Zimbabwe uses ZAR/USD, use ZAR
-  MW:{ c:'MWK', r:'africa', flag:'🇲🇼' },
-  TZ:{ c:'TZS', r:'africa', flag:'🇹🇿' },
-  CM:{ c:'XAF', r:'africa', flag:'🇨🇲' },
-  // Asia
-  IN:{ c:'INR', r:'asia',   flag:'🇮🇳' },
-  PH:{ c:'PHP', r:'asia',   flag:'🇵🇭' },
-  PK:{ c:'PKR', r:'asia',   flag:'🇵🇰' },
-  // Europe
-  GB:{ c:'GBP', r:'europe', flag:'🇬🇧' },
-  FR:{ c:'EUR', r:'europe', flag:'🇫🇷' },
-  DE:{ c:'EUR', r:'europe', flag:'🇩🇪' },
-  NL:{ c:'EUR', r:'europe', flag:'🇳🇱' },
-  IE:{ c:'EUR', r:'europe', flag:'🇮🇪' },
-  IT:{ c:'EUR', r:'europe', flag:'🇮🇹' },
-  ES:{ c:'EUR', r:'europe', flag:'🇪🇸' },
-  BE:{ c:'EUR', r:'europe', flag:'🇧🇪' },
-  PT:{ c:'EUR', r:'europe', flag:'🇵🇹' },
-  SE:{ c:'EUR', r:'europe', flag:'🇸🇪' }, // approximate EUR for simplicity
-  NO:{ c:'EUR', r:'europe', flag:'🇳🇴' },
-  // Tier-1
-  US:{ c:'USD', r:'tier1',  flag:'🇺🇸' },
-  CA:{ c:'CAD', r:'tier1',  flag:'🇨🇦' },
-  AU:{ c:'AUD', r:'tier1',  flag:'🇦🇺' },
-  NZ:{ c:'NZD', r:'tier1',  flag:'🇳🇿' },
-};
-
-// Currency symbols
 const SYM = {
   USD:'$', EUR:'€', GBP:'£', CAD:'C$', AUD:'A$', NZD:'NZ$',
+  JPY:'¥', SGD:'S$', INR:'₹', PHP:'₱', PKR:'Rs ', BDT:'৳', MYR:'RM',
   NGN:'₦', GHS:'GH₵', KES:'KSh ', ZAR:'R', ZMW:'K', MWK:'MK',
-  TZS:'TSh ', XAF:'CFA ', INR:'₹', PHP:'₱', PKR:'Rs ',
+  TZS:'TSh ', XAF:'CFA ', UGX:'USh ', ETB:'Br',
+};
+
+// African countries
+const AFRICA = {
+  NG:{ c:'NGN', flag:'🇳🇬' },
+  GH:{ c:'GHS', flag:'🇬🇭' },
+  KE:{ c:'KES', flag:'🇰🇪' },
+  ZA:{ c:'ZAR', flag:'🇿🇦' },
+  ZM:{ c:'ZMW', flag:'🇿🇲' },
+  ZW:{ c:'USD', flag:'🇿🇼' },
+  MW:{ c:'MWK', flag:'🇲🇼' },
+  TZ:{ c:'TZS', flag:'🇹🇿' },
+  CM:{ c:'XAF', flag:'🇨🇲' },
+  UG:{ c:'UGX', flag:'🇺🇬' },
+  ET:{ c:'ETB', flag:'🇪🇹' },
+};
+
+// Country → currency for non-Africa (all get $10 standard in local currency)
+const WORLD = {
+  US:{ c:'USD', flag:'🇺🇸' }, CA:{ c:'CAD', flag:'🇨🇦' },
+  AU:{ c:'AUD', flag:'🇦🇺' }, NZ:{ c:'NZD', flag:'🇳🇿' },
+  GB:{ c:'GBP', flag:'🇬🇧' }, FR:{ c:'EUR', flag:'🇫🇷' },
+  DE:{ c:'EUR', flag:'🇩🇪' }, NL:{ c:'EUR', flag:'🇳🇱' },
+  IE:{ c:'EUR', flag:'🇮🇪' }, IT:{ c:'EUR', flag:'🇮🇹' },
+  ES:{ c:'EUR', flag:'🇪🇸' }, BE:{ c:'EUR', flag:'🇧🇪' },
+  PT:{ c:'EUR', flag:'🇵🇹' }, SE:{ c:'EUR', flag:'🇸🇪' },
+  NO:{ c:'EUR', flag:'🇳🇴' }, IN:{ c:'INR', flag:'🇮🇳' },
+  PH:{ c:'PHP', flag:'🇵🇭' }, PK:{ c:'PKR', flag:'🇵🇰' },
+  JP:{ c:'JPY', flag:'🇯🇵' }, SG:{ c:'SGD', flag:'🇸🇬' },
+  MY:{ c:'MYR', flag:'🇲🇾' }, BD:{ c:'BDT', flag:'🇧🇩' },
 };
 
 function fmt(currency, amount) {
   return (SYM[currency] || '') + smartRound(amount).toLocaleString();
 }
 
-// Base prices in USD
-const BASE_USD = { tier1:10, europe:10, africa_usd: 4000/1600, asia_usd: 400/83 };
+// Africa: ₦5,000 new / ₦8,500 old → convert other currencies using NGN ratio
+const NGN_NEW = 5000;
+const NGN_OLD = 8500;
+const NGN_RATE = FX['NGN']; // 1600
 
-function calcPrices(country) {
-  const info = COUNTRY_MAP[country] || { c:'USD', r:'tier1' };
-  const region = info.r;
-  const currency = info.c;
-  const rate = FX[currency] || 1;
+function calcPrices(countryCode) {
+  let currency, flag, newLocal, oldLocal, isAfrica = false;
 
-  let newUSD;
-  if (region === 'africa') newUSD = 4000 / 1600;   // ₦4000 base
-  else if (region === 'asia') newUSD = 400 / 83;    // ₹400 base
-  else if (region === 'europe') newUSD = 10;
-  else newUSD = 10; // tier1
+  if (AFRICA[countryCode]) {
+    isAfrica = true;
+    currency = AFRICA[countryCode].c;
+    flag     = AFRICA[countryCode].flag;
+    if (currency === 'NGN') {
+      newLocal = NGN_NEW;
+      oldLocal = NGN_OLD;
+    } else {
+      // Convert from NGN base using FX rates
+      const newUSD = NGN_NEW / NGN_RATE;
+      const oldUSD = NGN_OLD / NGN_RATE;
+      const rate   = FX[currency] || 1;
+      newLocal = smartRound(newUSD * rate);
+      oldLocal = smartRound(oldUSD * rate);
+    }
+  } else {
+    // Everyone else: $10 new, $16 old (60% more), in local currency
+    const info = WORLD[countryCode] || { c:'USD', flag:'🌍' };
+    currency   = info.c;
+    flag       = info.flag;
+    const rate = FX[currency] || 1;
+    newLocal   = smartRound(10 * rate);
+    oldLocal   = smartRound(16 * rate);
+  }
 
-  const newLocal = smartRound(newUSD * rate);
-  const oldLocal = smartRound(newLocal * 1.6);
   const saveLocal = smartRound(oldLocal - newLocal);
 
-  // Bonus / value table prices (multiples of new price)
-  const bv1 = smartRound(newLocal * 1.9);
-  const bv2 = smartRound(newLocal * 1.5);
+  // Value table: bonus and main guide prices scaled proportionally
+  const bv1  = smartRound(newLocal * 1.9);
+  const bv2  = smartRound(newLocal * 1.5);
   const main = smartRound(newLocal * 2.2);
-  const total = smartRound(main + bv1 + bv2);
+  const total= smartRound(main + bv1 + bv2);
 
-  return { currency, newLocal, oldLocal, saveLocal, bv1, bv2, main, total, region, flag: info.flag || '🌍' };
+  return { currency, flag: flag || '🌍', newLocal, oldLocal, saveLocal, bv1, bv2, main, total };
 }
 
 function applyPrices(p) {
@@ -553,32 +563,25 @@ function applyPrices(p) {
   const op = fmt(p.currency, p.oldLocal);
   const sv = fmt(p.currency, p.saveLocal);
 
-  // Sticky bar
-  document.getElementById('bar-new-price').textContent = np;
-  document.getElementById('bar-old-price').textContent = op;
-  // Timer note
-  document.getElementById('tm-old').textContent = op;
-  // Hero
+  document.getElementById('bar-new-price').textContent  = np;
+  document.getElementById('bar-old-price').textContent  = op;
+  document.getElementById('tm-old').textContent         = op;
   document.getElementById('hero-new-price').textContent = np;
   document.getElementById('hero-old-price').textContent = op;
-  document.getElementById('hero-old-price2').textContent = op;
-  document.getElementById('hero-save').textContent = sv;
-  // Stat
-  document.getElementById('stat-price').textContent = np;
-  // Bonus values
-  document.getElementById('bv1').textContent = fmt(p.currency, p.bv1);
-  document.getElementById('bv2').textContent = fmt(p.currency, p.bv2);
-  // Value table
-  document.getElementById('vt-main').textContent = fmt(p.currency, p.main);
-  document.getElementById('vt-b1').textContent = fmt(p.currency, p.bv1);
-  document.getElementById('vt-b2').textContent = fmt(p.currency, p.bv2);
-  document.getElementById('total-val').textContent = fmt(p.currency, p.total);
-  document.getElementById('you-pay-h').textContent = np;
-  document.getElementById('you-pay-table').textContent = np;
-  // CTAs
-  document.getElementById('cta-price-mid').textContent = np;
-  document.getElementById('cta-price-final').textContent = np;
-  document.getElementById('final-new-price').textContent = np;
+  document.getElementById('hero-old-price2').textContent= op;
+  document.getElementById('hero-save').textContent      = sv;
+  document.getElementById('stat-price').textContent     = np;
+  document.getElementById('bv1').textContent            = fmt(p.currency, p.bv1);
+  document.getElementById('bv2').textContent            = fmt(p.currency, p.bv2);
+  document.getElementById('vt-main').textContent        = fmt(p.currency, p.main);
+  document.getElementById('vt-b1').textContent          = fmt(p.currency, p.bv1);
+  document.getElementById('vt-b2').textContent          = fmt(p.currency, p.bv2);
+  document.getElementById('total-val').textContent      = fmt(p.currency, p.total);
+  document.getElementById('you-pay-h').textContent      = np;
+  document.getElementById('you-pay-table').textContent  = np;
+  document.getElementById('cta-price-mid').textContent  = np;
+  document.getElementById('cta-price-final').textContent= np;
+  document.getElementById('final-new-price').textContent= np;
 }
 
 async function detectAndApply() {
@@ -588,19 +591,15 @@ async function detectAndApply() {
     const code = data.country_code || 'US';
     const p    = calcPrices(code);
     applyPrices(p);
-
-    // Update detecting bar to show result
     document.getElementById('detecting-bar').innerHTML =
       `${p.flag} Prices shown in <strong style="color:#fff;margin:0 4px;">${p.currency}</strong> based on your location (${data.country_name || code})`;
   } catch(e) {
-    // Default to USD silently
     const p = calcPrices('US');
     applyPrices(p);
     document.getElementById('detecting-bar').style.display = 'none';
   }
 }
 
-// Init with USD while detecting
 applyPrices(calcPrices('US'));
 detectAndApply();
 
@@ -753,4 +752,4 @@ function toggleFaq(btn) {
 }
 </script>
 </body>
-    </html>
+</html>
